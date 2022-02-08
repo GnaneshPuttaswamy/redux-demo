@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 
 const createStore = redux.createStore;
 const applyMiddleware = redux.applyMiddleware;
+const thunkMiddleware = thunk.default;
 
 const initialState = {
     loading: false,
@@ -75,8 +76,6 @@ const appReducer = (state = initialState, action) => {
 const fetchUsers = () => {
     return function (dispatch) {
 
-        console.log("-------------------------------------------");
-
         dispatch(fetchUsersRequest());
 
         axios.get("https://jsonplaceholder.typicode.com/users")
@@ -90,11 +89,10 @@ const fetchUsers = () => {
     }
 }
 
-// console.log("thunk ===============> ", thunk);
-const store = createStore(appReducer, applyMiddleware(thunk.default));
+const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
 store.subscribe(() => {
     console.log(store.getState());
 })
 
-store.dispatch(fetchUsers);
+store.dispatch(fetchUsers());
